@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="165" height="40" viewBox="0 0 165 40" fill="none">
+  <rect width="40" height="40" rx="8" fill="#16A34A"/>
+  <path d="M10 20C10 14.4772 14.4772 10 20 10C25.5228 10 30 14.4772 30 20C30 25.5228 25.5228 30 20 30C14.4772 30 10 25.5228 10 20Z" stroke="white" stroke-width="2"/>
+  <path d="M15 20C15 17.2386 17.2386 15 20 15C22.7614 15 25 17.2386 25 20C25 22.7614 22.7614 25 20 25C17.2386 25 15 22.7614 15 20Z" stroke="white" stroke-width="2"/>
+  <path d="M20 15V10" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <path d="M20 30V25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 20H10" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <path d="M30 20H25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <text x="50" y="25" font-family="Arial, sans-serif" font-weight="bold" font-size="18" fill="#16A34A">Gonoshastho</text>
+  <text x="50" y="35" font-family="Arial, sans-serif" font-size="12" fill="#4B5563">Homeo</text>
+</svg> 
