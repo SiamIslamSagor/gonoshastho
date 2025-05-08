@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format, addDays, setHours, setMinutes, isSameDay } from "date-fns";
+import { format, addDays, isSameDay } from "date-fns";
 import { bn } from "date-fns/locale";
 
 type FormData = {
   appointmentDate: string;
-  appointmentTime: string;
+  // appointmentTime: string; // Commented out as we're only using date
 };
 
 interface DateTimeSelectionProps {
@@ -16,6 +16,8 @@ interface DateTimeSelectionProps {
   updateFormData: (data: Partial<FormData>) => void;
 }
 
+// Keeping time slots for future use
+/*
 const timeSlots = [
   { time: "09:00 AM", hours: 9, minutes: 0 },
   { time: "09:30 AM", hours: 9, minutes: 30 },
@@ -31,6 +33,7 @@ const timeSlots = [
   { time: "05:00 PM", hours: 17, minutes: 0 },
   { time: "05:30 PM", hours: 17, minutes: 30 },
 ];
+*/
 
 const DateTimeSelection: React.FC<DateTimeSelectionProps> = ({
   formData,
@@ -40,7 +43,8 @@ const DateTimeSelection: React.FC<DateTimeSelectionProps> = ({
     formData.appointmentDate ? new Date(formData.appointmentDate) : null
   );
 
-  // Filter available times (example: no past times for today)
+  // Keeping these functions for future use
+  /*
   const filterPassedTime = (time: Date) => {
     const currentDate = new Date();
     const selectedDate = new Date(time);
@@ -52,20 +56,20 @@ const DateTimeSelection: React.FC<DateTimeSelectionProps> = ({
     return true;
   };
 
-  // Generate available time slots
   const getAvailableTimeSlots = (date: Date) => {
     return timeSlots.map(({ hours, minutes }) => {
       const timeSlot = setMinutes(setHours(date, hours), minutes);
       return timeSlot;
     });
   };
+  */
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
     if (date) {
       updateFormData({
         appointmentDate: date.toISOString(),
-        appointmentTime: "", // Reset time when date changes
+        // appointmentTime: "", // Commented out as we're only using date
       });
     }
   };
@@ -73,13 +77,13 @@ const DateTimeSelection: React.FC<DateTimeSelectionProps> = ({
   return (
     <div className="space-y-8">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-        তারিখ এবং সময় নির্বাচন করুন
+        তারিখ নির্বাচন করুন
       </h2>
 
       {/* Date Selection */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-gray-900">
-          তারিখ নির্বাচন করুন
+          অ্যাপয়েন্টমেন্টের তারিখ নির্বাচন করুন
         </h3>
         <div className="w-full max-w-md">
           <DatePicker
@@ -101,7 +105,8 @@ const DateTimeSelection: React.FC<DateTimeSelectionProps> = ({
         </div>
       </div>
 
-      {/* Time Selection */}
+      {/* Time Selection - Commented out for future use */}
+      {/*
       {selectedDate && (
         <div className="space-y-4">
           <h3 className="text-lg font-medium text-gray-900">
@@ -135,16 +140,16 @@ const DateTimeSelection: React.FC<DateTimeSelectionProps> = ({
           </div>
         </div>
       )}
+      */}
 
-      {/* Selected Date & Time Summary */}
-      {formData.appointmentDate && formData.appointmentTime && (
+      {/* Selected Date Summary */}
+      {formData.appointmentDate && (
         <div className="p-4 bg-green-50 rounded-lg border border-green-100">
           <h4 className="text-lg font-medium text-green-800 mb-2">
-            আপনার নির্বাচিত সময়
+            আপনার নির্বাচিত তারিখ
           </h4>
           <p className="text-green-700">
-            {format(new Date(formData.appointmentDate), "dd MMMM, yyyy")} -{" "}
-            {formData.appointmentTime}
+            {format(new Date(formData.appointmentDate), "dd MMMM, yyyy")}
           </p>
         </div>
       )}

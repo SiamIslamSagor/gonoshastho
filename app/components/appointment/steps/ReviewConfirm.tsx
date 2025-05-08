@@ -1,5 +1,4 @@
 import React from "react";
-import { format } from "date-fns";
 
 interface ReviewConfirmProps {
   formData: {
@@ -13,26 +12,19 @@ interface ReviewConfirmProps {
     previousTreatments: string;
     currentMedications: string;
     allergies: string;
-    selectedDoctor: string;
-    appointmentDate: string;
-    appointmentTime: string;
+    location: string;
+    specificLocation: string;
+    availableDays: string[];
   };
 }
 
 const ReviewConfirm: React.FC<ReviewConfirmProps> = ({ formData }) => {
-  const selectedDoctor = {
-    "1": "ডাঃ আব্দুল করিম",
-    "2": "ডাঃ সালমা বেগম",
-    "3": "ডাঃ রফিকুল ইসলাম",
-    "4": "ডাঃ নাসরিন আক্তার",
-  }[formData.selectedDoctor];
-
   const InfoSection = ({
     title,
     items,
   }: {
     title: string;
-    items: { label: string; value: string }[];
+    items: { label: string; value: string | string[] }[];
   }) => (
     <div className="mb-6">
       <h3 className="text-lg font-medium text-gray-900 mb-3">{title}</h3>
@@ -44,7 +36,9 @@ const ReviewConfirm: React.FC<ReviewConfirmProps> = ({ formData }) => {
                 {item.label}
               </dt>
               <dd className="text-sm text-gray-900 sm:w-2/3">
-                {item.value || "-"}
+                {Array.isArray(item.value)
+                  ? item.value.join(", ")
+                  : item.value || "-"}
               </dd>
             </div>
           ))}
@@ -82,17 +76,11 @@ const ReviewConfirm: React.FC<ReviewConfirmProps> = ({ formData }) => {
       />
 
       <InfoSection
-        title="অ্যাপয়েন্টমেন্ট তথ্য"
+        title="চেম্বার লোকেশন"
         items={[
-          {
-            label: "ডাক্তার",
-            value: selectedDoctor || "ডাক্তার নির্বাচন করুন",
-          },
-          {
-            label: "তারিখ",
-            value: format(new Date(formData.appointmentDate), "dd MMMM, yyyy"),
-          },
-          { label: "সময়", value: formData.appointmentTime },
+          { label: "শহর", value: formData.location },
+          { label: "এলাকা", value: formData.specificLocation },
+          { label: "চেম্বার দিন", value: formData.availableDays },
         ]}
       />
 
@@ -101,7 +89,9 @@ const ReviewConfirm: React.FC<ReviewConfirmProps> = ({ formData }) => {
           গুরুত্বপূর্ণ তথ্য
         </h4>
         <ul className="list-disc list-inside space-y-2 text-yellow-700">
-          <li>অ্যাপয়েন্টমেন্ট সময়ের ১৫ মিনিট আগে উপস্থিত থাকুন</li>
+          <li>
+            নির্ধারিত দিনে সকাল ৯টা থেকে বিকাল ৫টার মধ্যে যেকোনো সময় আসতে পারেন
+          </li>
           <li>সকল মেডিকেল রিপোর্ট সাথে নিয়ে আসুন</li>
           <li>পূর্ববর্তী প্রেসক্রিপশন (যদি থাকে) সাথে আনুন</li>
           <li>মাস্ক পরে আসুন</li>

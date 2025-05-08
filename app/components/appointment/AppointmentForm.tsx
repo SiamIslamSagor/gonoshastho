@@ -6,16 +6,14 @@ import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import PatientInfo from "./steps/PatientInfo";
 import MedicalHistory from "./steps/MedicalHistory";
-import DoctorSelection from "./steps/DoctorSelection";
-import DateTimeSelection from "./steps/DateTimeSelection";
+import LocationSelection from "./steps/LocationSelection";
 import ReviewConfirm from "./steps/ReviewConfirm";
 
 const steps = [
   { id: 1, title: "রোগীর তথ্য", subtitle: "Personal Information" },
   { id: 2, title: "মেডিকেল হিস্টরি", subtitle: "Medical History" },
-  { id: 3, title: "ডাক্তার নির্বাচন", subtitle: "Select Doctor" },
-  { id: 4, title: "সময় নির্বাচন", subtitle: "Choose Date & Time" },
-  { id: 5, title: "নিশ্চিত করুন", subtitle: "Review & Confirm" },
+  { id: 3, title: "লোকেশন নির্বাচন", subtitle: "Select Location" },
+  { id: 4, title: "নিশ্চিত করুন", subtitle: "Review & Confirm" },
 ];
 
 const AppointmentForm = () => {
@@ -38,12 +36,10 @@ const AppointmentForm = () => {
     currentMedications: "",
     allergies: "",
 
-    // Doctor Selection
-    selectedDoctor: "",
-
-    // Date & Time
-    appointmentDate: "",
-    appointmentTime: "",
+    // Location Info
+    location: "",
+    specificLocation: "",
+    availableDays: [] as string[],
   });
 
   const updateFormData = (data: Partial<typeof formData>) => {
@@ -108,19 +104,12 @@ const AppointmentForm = () => {
         );
       case 3:
         return (
-          <DoctorSelection
+          <LocationSelection
             formData={formData}
             updateFormData={updateFormData}
           />
         );
       case 4:
-        return (
-          <DateTimeSelection
-            formData={formData}
-            updateFormData={updateFormData}
-          />
-        );
-      case 5:
         return <ReviewConfirm formData={formData} />;
       default:
         return null;
