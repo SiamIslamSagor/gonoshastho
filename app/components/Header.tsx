@@ -296,13 +296,13 @@ const Header = () => {
 
                 {/* Decorative Elements */}
                 <motion.div
-                  className="absolute top-[20%] right-[10%] w-48 h-48 rounded-full bg-green-100/30"
+                  className="absolute top-[20%] right-[10%] w-48 h-48 rounded-full bg-green-100/30 -z-10"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                 />
                 <motion.div
-                  className="absolute bottom-[30%] left-[5%] w-32 h-32 rounded-full bg-green-200/20"
+                  className="absolute bottom-[30%] left-[5%] w-32 h-32 rounded-full bg-green-200/20 -z-10"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
