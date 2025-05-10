@@ -162,7 +162,7 @@ const Header = () => {
 
               {/* Menu Panel */}
               <motion.div
-                className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white shadow-2xl z-45 flex flex-col"
+                className="fixed top-0 right-0 bottom-0 w-screen bg-white shadow-2xl z-45 flex flex-col overflow-hidden"
                 variants={menuVariants}
                 initial="closed"
                 animate="open"
@@ -170,12 +170,12 @@ const Header = () => {
               >
                 <div className="flex flex-col h-full overflow-y-auto pt-24 pb-8">
                   {/* Navigation Links */}
-                  <nav className="px-8">
+                  <nav className="px-6 sm:px-8">
                     {navLinks.map((link, index) => (
                       <motion.div
                         key={link.id}
                         variants={itemVariants}
-                        className="mb-6"
+                        className="mb-8"
                         whileHover={{ x: 10 }}
                         whileTap={{ scale: 0.98 }}
                       >
@@ -184,7 +184,7 @@ const Header = () => {
                           className="group flex items-center py-2 relative"
                           onClick={() => setIsMenuOpen(false)}
                         >
-                          <div className="flex items-center mr-2">
+                          <div className="flex items-center mr-2 w-16">
                             <motion.span
                               className="absolute left-0 w-0 h-full bg-green-100 rounded-full -z-10"
                               whileHover={{ width: "100%" }}
@@ -204,11 +204,10 @@ const Header = () => {
                                 x2="250"
                                 y2="10"
                                 className="stroke-green-700/60"
-                                // style={{ stroke: "red", strokeWidth: "2" }}
                               />
                             </svg>
                           </div>
-                          <span className="text-xl font-bold text-gray-900 group-hover:text-green-700 transition-colors">
+                          <span className="text-2xl font-bold text-gray-900 group-hover:text-green-700 transition-colors">
                             {link.name}
                           </span>
                         </Link>
@@ -217,12 +216,15 @@ const Header = () => {
                   </nav>
 
                   {/* Action Button */}
-                  <motion.div className="px-8 mt-8" variants={itemVariants}>
+                  <motion.div
+                    className="px-6 sm:px-8 mt-8"
+                    variants={itemVariants}
+                  >
                     <LinkButton
                       href="/appointment"
                       variant="primary"
                       size="lg"
-                      className="w-full justify-center text-lg"
+                      className="w-full justify-center text-lg py-4"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Book Appointment
@@ -231,7 +233,7 @@ const Header = () => {
 
                   {/* Footer Section */}
                   <motion.div
-                    className="mt-auto px-8 pt-8 border-t border-gray-100"
+                    className="mt-auto px-6 sm:px-8 pt-8 border-t border-gray-100"
                     variants={itemVariants}
                   >
                     <div className="flex space-x-4 mb-6">
@@ -246,7 +248,7 @@ const Header = () => {
                           <span className="sr-only">{social}</span>
                           {social === "facebook" && (
                             <svg
-                              className="w-5 h-5"
+                              className="w-6 h-6"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -256,7 +258,7 @@ const Header = () => {
                           )}
                           {social === "instagram" && (
                             <svg
-                              className="w-5 h-5"
+                              className="w-6 h-6"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -275,7 +277,7 @@ const Header = () => {
                           )}
                           {social === "twitter" && (
                             <svg
-                              className="w-5 h-5"
+                              className="w-6 h-6"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -294,13 +296,13 @@ const Header = () => {
 
                 {/* Decorative Elements */}
                 <motion.div
-                  className="absolute top-[20%] right-[10%] w-40 h-40 rounded-full bg-green-100/30"
+                  className="absolute top-[20%] right-[10%] w-48 h-48 rounded-full bg-green-100/30"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                 />
                 <motion.div
-                  className="absolute bottom-[30%] left-[5%] w-24 h-24 rounded-full bg-green-200/20"
+                  className="absolute bottom-[30%] left-[5%] w-32 h-32 rounded-full bg-green-200/20"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
