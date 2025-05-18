@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useForm, FormProvider } from "react-hook-form";
 import PatientInfo from "./steps/PatientInfo";
 import MedicalHistory from "./steps/MedicalHistory";
 import LocationSelection from "./steps/LocationSelection";
@@ -16,105 +17,205 @@ const steps = [
   { id: 4, title: "নিশ্চিত করুন", subtitle: "Review & Confirm" },
 ];
 
+type FormData = {
+  // Patient Info
+  name: string;
+  age: string;
+  gender: string;
+  phone: string;
+  email: string;
+  address: string;
+  reference: string;
+
+  // Medical History
+  symptoms: string;
+  previousTreatments: string;
+  currentMedications: string;
+  allergies: string;
+
+  // Location Info
+  location: string;
+  specificLocation: string;
+  availableDays: string[];
+
+  // Documents
+  documentUrls: string[];
+};
+
 const AppointmentForm = () => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    // Patient Info
-    name: "",
-    age: "",
-    gender: "",
-    phone: "",
-    email: "",
-    address: "",
 
-    // Medical History
-    symptoms: "",
-    previousTreatments: "",
-    currentMedications: "",
-    allergies: "",
-
-    // Location Info
-    location: "",
-    specificLocation: "",
-    availableDays: [] as string[],
+  const methods = useForm<FormData>({
+    mode: "all",
+    defaultValues: {
+      name: "",
+      age: "",
+      gender: "",
+      phone: "",
+      email: "",
+      address: "",
+      reference: "",
+      symptoms: "",
+      previousTreatments: "",
+      currentMedications: "",
+      allergies: "",
+      location: "",
+      specificLocation: "",
+      availableDays: [],
+      documentUrls: [],
+    },
   });
 
-  const updateFormData = (data: Partial<typeof formData>) => {
-    setFormData(prev => ({ ...prev, ...data }));
-  };
+  const {
+    handleSubmit,
+    trigger,
+    formState: { errors },
+  } = methods;
 
-  const handleNext = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep(prev => prev + 1);
+  // Helper function to determine which fields to validate at each step
+  const getFieldsToValidate = (step: number): (keyof FormData)[] => {
+    switch (step) {
+      case 1:
+        return ["name", "age", "gender", "phone", "email", "address"];
+      case 2:
+        return ["symptoms"];
+      case 3:
+        return ["location", "specificLocation", "availableDays"];
+      default:
+        return [];
     }
   };
 
-  const handlePrevious = () => {
+  const handleNext = useCallback(async () => {
+    console.log("handleNext called, currentStep:", currentStep);
+
+    if (currentStep >= steps.length) {
+      console.log("Already at last step, not proceeding");
+      return;
+    }
+
+    const fields = getFieldsToValidate(currentStep);
+    console.log("Validating fields:", fields);
+
+    const isValid = await trigger(fields);
+    console.log("Validation result:", isValid);
+
+    if (isValid) {
+      setCurrentStep(prev => {
+        const nextStep = prev + 1;
+        console.log("Moving to step:", nextStep);
+        return nextStep;
+      });
+    }
+  }, [currentStep, trigger]);
+
+  const handlePrevious = useCallback(() => {
     if (currentStep > 1) {
       setCurrentStep(prev => prev - 1);
     }
-  };
+  }, [currentStep]);
 
-  const handleSubmit = async () => {
-    if (isSubmitting) return; // Prevent multiple submissions
+  const processFormSubmission = useCallback(
+    async (data: FormData) => {
+      console.log("processFormSubmission called");
 
-    try {
-      setIsSubmitting(true);
+      if (isSubmitting) {
+        console.log("Already submitting, returning");
+        return;
+      }
 
-      // Log the form data
-      console.log("Appointment Booking Data:", formData);
+      if (currentStep !== steps.length) {
+        console.log("Not on last step, returning");
+        return;
+      }
 
-      // Here you would typically make an API call to save the data
-      // For now, we'll simulate an API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      try {
+        setIsSubmitting(true);
 
-      // Show success modal
-      setShowSuccessModal(true);
+        // Make API call to create appointment
+        const response = await fetch("/api/appointments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-      // Show toast notification
-      toast.success("অ্যাপয়েন্টমেন্ট সফলভাবে বুক করা হয়েছে!", {
-        duration: 5000,
-        position: "top-center",
-      });
+        if (!response.ok) {
+          throw new Error("Failed to create appointment");
+        }
 
-      // Wait for 2 seconds before redirecting
-      setTimeout(() => {
-        router.push("/");
-      }, 2000);
-    } catch (error) {
-      toast.error("দুঃখিত, কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
-        duration: 5000,
-      });
-      setIsSubmitting(false);
-    }
-  };
+        const result = await response.json();
+        console.log("Appointment created:", result);
 
-  const renderStep = () => {
+        setShowSuccessModal(true);
+        toast.success("অ্যাপয়েন্টমেন্ট সফলভাবে বুক করা হয়েছে!", {
+          duration: 5000,
+          position: "top-center",
+        });
+
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      } catch (error) {
+        console.error("Submission error:", error);
+        toast.error("দুঃখিত, কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
+          duration: 5000,
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [isSubmitting, currentStep, router]
+  );
+
+  const onSubmit = useCallback(
+    (e?: React.FormEvent) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      // Prevent submission if not explicitly triggered by button click
+      if (!e?.isTrusted) {
+        console.log("Preventing non-user-initiated submission");
+        return;
+      }
+
+      if (currentStep !== steps.length) {
+        console.log("Not on final step, preventing submission");
+        return;
+      }
+
+      if (isSubmitting) {
+        console.log("Already submitting, preventing duplicate submission");
+        return;
+      }
+
+      console.log("Triggering form submission");
+      handleSubmit(processFormSubmission)();
+    },
+    [currentStep, handleSubmit, processFormSubmission, isSubmitting]
+  );
+
+  const renderStep = useCallback(() => {
+    console.log("Rendering step:", currentStep);
     switch (currentStep) {
       case 1:
-        return (
-          <PatientInfo formData={formData} updateFormData={updateFormData} />
-        );
+        return <PatientInfo />;
       case 2:
-        return (
-          <MedicalHistory formData={formData} updateFormData={updateFormData} />
-        );
+        return <MedicalHistory />;
       case 3:
-        return (
-          <LocationSelection
-            formData={formData}
-            updateFormData={updateFormData}
-          />
-        );
+        return <LocationSelection />;
       case 4:
-        return <ReviewConfirm formData={formData} />;
+        return <ReviewConfirm />;
       default:
         return null;
     }
-  };
+  }, [currentStep]);
 
   const LoadingSpinner = () => (
     <svg
@@ -179,50 +280,71 @@ const AppointmentForm = () => {
         </div>
 
         {/* Form Steps */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
+        <FormProvider {...methods}>
+          <form
+            onSubmit={e => {
+              console.log("Form submit event triggered", {
+                isTrusted: e.isTrusted,
+                currentStep,
+                isSubmitting,
+              });
+              e.preventDefault();
+              e.stopPropagation();
+              // Only process submit if it's from our button click
+              if (currentStep === steps.length && e.isTrusted) {
+                onSubmit(e);
+              }
+            }}
+            noValidate
           >
-            {renderStep()}
-          </motion.div>
-        </AnimatePresence>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStep}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {renderStep()}
+              </motion.div>
+            </AnimatePresence>
 
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-8 pt-6 border-t">
-          <button
-            onClick={handlePrevious}
-            disabled={currentStep === 1 || isSubmitting}
-            className={`px-6 py-2 rounded-lg font-medium ${
-              currentStep === 1 || isSubmitting
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
-          >
-            Previous
-          </button>
-          <button
-            onClick={currentStep === steps.length ? handleSubmit : handleNext}
-            disabled={isSubmitting}
-            className={`px-6 py-2 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center`}
-          >
-            {currentStep === steps.length ? (
-              isSubmitting ? (
-                <>
-                  <LoadingSpinner />
-                  <span>Processing...</span>
-                </>
-              ) : (
-                "Confirm Booking"
-              )
-            ) : (
-              "Next"
-            )}
-          </button>
-        </div>
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-8 pt-6 border-t">
+              <button
+                type="button"
+                onClick={handlePrevious}
+                disabled={currentStep === 1 || isSubmitting}
+                className={`px-6 py-2 rounded-lg font-medium ${
+                  currentStep === 1 || isSubmitting
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                onClick={currentStep === steps.length ? onSubmit : handleNext}
+                disabled={isSubmitting}
+                className={`px-6 py-2 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center`}
+              >
+                {currentStep === steps.length ? (
+                  isSubmitting ? (
+                    <>
+                      <LoadingSpinner />
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    "Submit"
+                  )
+                ) : (
+                  "Next"
+                )}
+              </button>
+            </div>
+          </form>
+        </FormProvider>
       </div>
 
       {/* Success Modal */}

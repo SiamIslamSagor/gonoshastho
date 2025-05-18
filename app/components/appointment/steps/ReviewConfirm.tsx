@@ -1,54 +1,77 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 
-interface ReviewConfirmProps {
-  formData: {
-    name: string;
-    age: string;
-    gender: string;
-    phone: string;
-    email: string;
-    address: string;
-    symptoms: string;
-    previousTreatments: string;
-    currentMedications: string;
-    allergies: string;
-    location: string;
-    specificLocation: string;
-    availableDays: string[];
-  };
+type FormData = {
+  name: string;
+  age: string;
+  gender: string;
+  phone: string;
+  email: string;
+  address: string;
+  symptoms: string;
+  previousTreatments: string;
+  currentMedications: string;
+  allergies: string;
+  location: string;
+  specificLocation: string;
+  availableDays: string[];
+};
+
+interface InfoSectionProps {
+  title: string;
+  items: { label: string; value: string | string[] }[];
 }
 
-const ReviewConfirm: React.FC<ReviewConfirmProps> = ({ formData }) => {
-  const InfoSection = ({
-    title,
-    items,
-  }: {
-    title: string;
-    items: { label: string; value: string | string[] }[];
-  }) => (
-    <div className="mb-6">
-      <h3 className="text-lg font-medium text-gray-900 mb-3">{title}</h3>
-      <div className="bg-gray-50 rounded-lg p-4">
-        <dl className="space-y-2">
-          {items.map((item, index) => (
-            <div key={index} className="flex flex-col sm:flex-row sm:gap-4">
-              <dt className="text-sm font-medium text-gray-500 sm:w-1/3">
-                {item.label}
-              </dt>
-              <dd className="text-sm text-gray-900 sm:w-2/3">
-                {Array.isArray(item.value)
-                  ? item.value.join(", ")
-                  : item.value || "-"}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+const InfoSection: React.FC<InfoSectionProps> = ({ title, items }) => (
+  <div className="bg-gray-50 rounded-lg p-6">
+    <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+    <div className="space-y-3">
+      {items.map((item, index) => (
+        <div key={index} className="flex flex-col">
+          <span className="text-sm font-medium text-gray-600">
+            {item.label}
+          </span>
+          <span className="text-gray-900">
+            {Array.isArray(item.value)
+              ? item.value.join(", ")
+              : item.value || "-"}
+          </span>
+        </div>
+      ))}
     </div>
-  );
+  </div>
+);
+
+const ReviewConfirm = () => {
+  const { getValues } = useFormContext<FormData>();
+  const formData = getValues();
+
+  // Prevent any unintended form submissions
+  useEffect(() => {
+    const preventSubmission = (e: Event) => {
+      if (e.type === "submit") {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    };
+
+    // Add capture phase listener to catch events before they bubble
+    document.addEventListener("submit", preventSubmission, true);
+
+    return () => {
+      document.removeEventListener("submit", preventSubmission, true);
+    };
+  }, []);
 
   return (
-    <div className="space-y-6">
+    <div
+      className="space-y-6"
+      onClick={e => e.preventDefault()}
+      onSubmit={e => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">
         অ্যাপয়েন্টমেন্ট বিবরণ
       </h2>
