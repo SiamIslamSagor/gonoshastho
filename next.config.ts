@@ -12,10 +12,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // comment those up cuz we are working on server also, bellow code's just for static website.
   // output: "export",
-  basePath: "",
-  assetPrefix: undefined,
-  trailingSlash: true,
+  // basePath: "",
+  // assetPrefix: undefined,
+  // trailingSlash: true,
 };
 
 export default nextConfig;
