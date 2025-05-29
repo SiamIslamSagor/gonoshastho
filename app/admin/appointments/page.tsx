@@ -10,11 +10,13 @@ interface Appointment {
   phone: string;
   email: string;
   location: string;
-  specificLocation: string;
-  symptoms: string;
+  symptoms?: string; // optional
   status: string;
   createdAt: string;
   documentUrls: string[];
+  serialNumber: number;
+  selectedDate: string;
+  reference?: string;
 }
 
 const statusColors = {
@@ -87,14 +89,17 @@ export default function AppointmentsPage() {
   const handleExportToExcel = () => {
     // Prepare data for export
     const exportData = filteredAppointments.map(appointment => ({
+      Serial: appointment.serialNumber,
       "Patient Name": appointment.name,
       Phone: appointment.phone,
       Email: appointment.email,
       Location: appointment.location,
-      "Specific Location": appointment.specificLocation,
-      Symptoms: appointment.symptoms,
+      Symptoms: appointment?.symptoms,
       Status: appointment.status,
-      Date: new Date(appointment.createdAt).toLocaleDateString(),
+      "Appointment Date": new Date(
+        appointment.selectedDate
+      ).toLocaleDateString(),
+      "Created Date": new Date(appointment.createdAt).toLocaleDateString(),
     }));
 
     // Create worksheet
@@ -166,7 +171,13 @@ export default function AppointmentsPage() {
             <thead>
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Serial
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Patient Details
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Reference
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Location
@@ -178,7 +189,10 @@ export default function AppointmentsPage() {
                   Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Date
+                  Appointment Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Created Date
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Documents
@@ -192,7 +206,7 @@ export default function AppointmentsPage() {
               {isLoading ? (
                 <tr>
                   <td
-                    colSpan={7}
+                    colSpan={10}
                     className="px-6 py-4 text-center text-sm text-gray-500"
                   >
                     Loading...
@@ -201,7 +215,7 @@ export default function AppointmentsPage() {
               ) : filteredAppointments.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={7}
+                    colSpan={10}
                     className="px-6 py-4 text-center text-sm text-gray-500"
                   >
                     No appointments found
@@ -210,6 +224,11 @@ export default function AppointmentsPage() {
               ) : (
                 filteredAppointments.map(appointment => (
                   <tr key={appointment._id}>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="text-sm font-medium text-gray-900">
+                        {appointment.serialNumber}
+                      </div>
+                    </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">
                         {appointment.name}
@@ -223,10 +242,12 @@ export default function AppointmentsPage() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="text-sm text-gray-900">
-                        {appointment.location}
+                        {appointment.reference || "N/A"}
                       </div>
-                      <div className="text-sm text-gray-500">
-                        {appointment.specificLocation}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="text-sm text-gray-900">
+                        {appointment.location}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -244,6 +265,9 @@ export default function AppointmentsPage() {
                       >
                         {appointment.status}
                       </span>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {new Date(appointment.selectedDate).toLocaleDateString()}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                       {new Date(appointment.createdAt).toLocaleDateString()}

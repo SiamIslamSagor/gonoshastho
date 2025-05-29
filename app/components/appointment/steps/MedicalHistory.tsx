@@ -5,9 +5,6 @@ import { toast } from "react-hot-toast";
 
 type FormData = {
   symptoms: string;
-  previousTreatments: string;
-  currentMedications: string;
-  allergies: string;
   documentUrls: string[];
 };
 
@@ -104,17 +101,11 @@ const MedicalHistory = () => {
             htmlFor="symptoms"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            রোগের লক্ষণ
+            রোগের লক্ষণ (ঐচ্ছিক)
           </label>
           <textarea
             id="symptoms"
-            {...register("symptoms", {
-              required: "রোগের লক্ষণ আবশ্যক",
-              minLength: {
-                value: 10,
-                message: "রোগের লক্ষণ বিস্তারিত লিখুন (কমপক্ষে ১০ অক্ষর)",
-              },
-            })}
+            {...register("symptoms")}
             rows={4}
             className={`${textareaClasses} ${
               errors.symptoms ? "border-red-500" : ""
@@ -124,54 +115,6 @@ const MedicalHistory = () => {
           {errors.symptoms && (
             <p className={errorClasses}>{errors.symptoms.message}</p>
           )}
-        </div>
-
-        <div>
-          <label
-            htmlFor="previousTreatments"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            পূর্ববর্তী চিকিৎসা
-          </label>
-          <textarea
-            id="previousTreatments"
-            {...register("previousTreatments")}
-            rows={3}
-            className={textareaClasses}
-            placeholder="আপনি কি কোনো চিকিৎসা নিয়েছেন? থাকলে বিস্তারিত লিখুন"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="currentMedications"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            বর্তমান ঔষধ
-          </label>
-          <textarea
-            id="currentMedications"
-            {...register("currentMedications")}
-            rows={3}
-            className={textareaClasses}
-            placeholder="বর্তমানে কোন ঔষধ খাচ্ছেন? থাকলে তার নাম লিখুন"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="allergies"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            এলার্জি
-          </label>
-          <textarea
-            id="allergies"
-            {...register("allergies")}
-            rows={2}
-            className={textareaClasses}
-            placeholder="আপনার কোনো এলার্জি আছে? থাকলে লিখুন"
-          />
         </div>
 
         <div className="space-y-4">

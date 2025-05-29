@@ -174,10 +174,6 @@ const PatientInfo = () => {
             id="address"
             {...register("address", {
               required: "ঠিকানা আবশ্যক",
-              minLength: {
-                value: 10,
-                message: "ঠিকানা কমপক্ষে ১০ অক্ষর হতে হবে",
-              },
             })}
             rows={3}
             className={`${inputClasses} ${

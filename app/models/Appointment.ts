@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const appointmentSchema = new mongoose.Schema({
-  // Patient Info
+  // Patient Info (from PatientInfo.tsx)
   name: {
     type: String,
     required: [true, "Name is required"],
@@ -18,11 +18,14 @@ const appointmentSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, "Phone number is required"],
+    match: [/^01[3-9]\d{8}$/, "Please enter a valid Bangladeshi phone number"],
   },
   email: {
     type: String,
-    required: [true, "Email is required"],
-    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"],
+    match: [
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      "Please enter a valid email",
+    ],
   },
   address: {
     type: String,
@@ -32,18 +35,8 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
   },
 
-  // Medical History
+  // Medical History (from MedicalHistory.tsx)
   symptoms: {
-    type: String,
-    required: [true, "Symptoms are required"],
-  },
-  previousTreatments: {
-    type: String,
-  },
-  currentMedications: {
-    type: String,
-  },
-  allergies: {
     type: String,
   },
   documentUrls: [
@@ -52,21 +45,20 @@ const appointmentSchema = new mongoose.Schema({
     },
   ],
 
-  // Location Info
+  // Location Info (from LocationSelection.tsx)
   location: {
     type: String,
     required: [true, "Location is required"],
+    enum: ["ঢাকা", "হবিগঞ্জ"],
   },
-  specificLocation: {
-    type: String,
-    required: [true, "Specific location is required"],
+  selectedDate: {
+    type: Date,
+    required: [true, "Appointment date is required"],
   },
-  availableDays: [
-    {
-      type: String,
-      required: [true, "Available days are required"],
-    },
-  ],
+  serialNumber: {
+    type: Number,
+    required: [true, "Serial number is required"],
+  },
 
   // Appointment Status
   status: {

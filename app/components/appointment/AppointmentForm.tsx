@@ -29,17 +29,11 @@ type FormData = {
 
   // Medical History
   symptoms: string;
-  previousTreatments: string;
-  currentMedications: string;
-  allergies: string;
+  documentUrls: string[];
 
   // Location Info
   location: string;
-  specificLocation: string;
-  availableDays: string[];
-
-  // Documents
-  documentUrls: string[];
+  selectedDate: Date | null;
 };
 
 const AppointmentForm = () => {
@@ -59,13 +53,9 @@ const AppointmentForm = () => {
       address: "",
       reference: "",
       symptoms: "",
-      previousTreatments: "",
-      currentMedications: "",
-      allergies: "",
-      location: "",
-      specificLocation: "",
-      availableDays: [],
       documentUrls: [],
+      location: "",
+      selectedDate: null,
     },
   });
 
@@ -81,9 +71,9 @@ const AppointmentForm = () => {
       case 1:
         return ["name", "age", "gender", "phone", "email", "address"];
       case 2:
-        return ["symptoms"];
+        return [];
       case 3:
-        return ["location", "specificLocation", "availableDays"];
+        return ["location", "selectedDate"];
       default:
         return [];
     }
@@ -104,13 +94,22 @@ const AppointmentForm = () => {
     console.log("Validation result:", isValid);
 
     if (isValid) {
+      // For step 3, also check if both location and date are selected
+      if (currentStep === 3) {
+        const values = methods.getValues();
+        if (!values.location || !values.selectedDate) {
+          console.log("Location or date not selected");
+          return;
+        }
+      }
+
       setCurrentStep(prev => {
         const nextStep = prev + 1;
         console.log("Moving to step:", nextStep);
         return nextStep;
       });
     }
-  }, [currentStep, trigger]);
+  }, [currentStep, trigger, methods]);
 
   const handlePrevious = useCallback(() => {
     if (currentStep > 1) {
@@ -135,6 +134,9 @@ const AppointmentForm = () => {
       try {
         setIsSubmitting(true);
 
+        // Log the form data being submitted
+        console.log("Submitting form data:", data);
+
         // Make API call to create appointment
         const response = await fetch("/api/appointments", {
           method: "POST",
@@ -145,7 +147,8 @@ const AppointmentForm = () => {
         });
 
         if (!response.ok) {
-          throw new Error("Failed to create appointment");
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to create appointment");
         }
 
         const result = await response.json();
@@ -160,11 +163,14 @@ const AppointmentForm = () => {
         setTimeout(() => {
           router.push("/");
         }, 2000);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Submission error:", error);
-        toast.error("দুঃখিত, কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
-          duration: 5000,
-        });
+        toast.error(
+          error.message || "দুঃখিত, কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+          {
+            duration: 5000,
+          }
+        );
       } finally {
         setIsSubmitting(false);
       }

@@ -8,23 +8,19 @@ type FormData = {
   phone: string;
   email: string;
   address: string;
-  symptoms: string;
-  previousTreatments: string;
-  currentMedications: string;
-  allergies: string;
-  location: string;
-  specificLocation: string;
-  availableDays: string[];
+  reference?: string;
 };
 
-interface InfoSectionProps {
+type InfoSectionProps = {
   title: string;
   items: { label: string; value: string | string[] }[];
-}
+};
 
 const InfoSection: React.FC<InfoSectionProps> = ({ title, items }) => (
   <div className="bg-gray-50 rounded-lg p-6">
-    <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+    {title && (
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+    )}
     <div className="space-y-3">
       {items.map((item, index) => (
         <div key={index} className="flex flex-col">
@@ -77,7 +73,7 @@ const ReviewConfirm = () => {
       </h2>
 
       <InfoSection
-        title="ব্যক্তিগত তথ্য"
+        title=""
         items={[
           { label: "নাম", value: formData.name },
           { label: "বয়স", value: formData.age },
@@ -85,25 +81,7 @@ const ReviewConfirm = () => {
           { label: "ফোন", value: formData.phone },
           { label: "ইমেইল", value: formData.email },
           { label: "ঠিকানা", value: formData.address },
-        ]}
-      />
-
-      <InfoSection
-        title="মেডিকেল তথ্য"
-        items={[
-          { label: "রোগের লক্ষণ", value: formData.symptoms },
-          { label: "পূর্ববর্তী চিকিৎসা", value: formData.previousTreatments },
-          { label: "বর্তমান ঔষধ", value: formData.currentMedications },
-          { label: "এলার্জি", value: formData.allergies },
-        ]}
-      />
-
-      <InfoSection
-        title="চেম্বার লোকেশন"
-        items={[
-          { label: "শহর", value: formData.location },
-          { label: "এলাকা", value: formData.specificLocation },
-          { label: "চেম্বার দিন", value: formData.availableDays },
+          { label: "রেফারেন্স", value: formData.reference || "-" },
         ]}
       />
 
