@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import AppointmentPageContent from "@/app/components/appointment/AppointmentPageContent";
 
-export default function AppointmentPage() {
+function AppointmentPageWrapper() {
   const searchParams = useSearchParams();
   const [initialData, setInitialData] = useState({
     symptoms: "",
@@ -21,4 +21,12 @@ export default function AppointmentPage() {
   }, [searchParams]);
 
   return <AppointmentPageContent initialData={initialData} />;
+}
+
+export default function AppointmentPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AppointmentPageWrapper />
+    </Suspense>
+  );
 }
