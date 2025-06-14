@@ -4,7 +4,15 @@ import React, { useState, useEffect } from "react";
 import AppointmentForm from "@/app/components/appointment/AppointmentForm";
 import gsap from "gsap";
 
-export default function AppointmentPageContent() {
+interface AppointmentPageContentProps {
+  initialData?: {
+    symptoms?: string;
+  };
+}
+
+export default function AppointmentPageContent({
+  initialData = {},
+}: AppointmentPageContentProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -67,7 +75,7 @@ export default function AppointmentPageContent() {
             isLoaded ? "gsap-init-visible" : "gsap-init-invisible"
           }`}
         >
-          <AppointmentForm />
+          <AppointmentForm initialData={initialData} />
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -36,7 +36,13 @@ type FormData = {
   selectedDate: Date | null;
 };
 
-const AppointmentForm = () => {
+interface AppointmentFormProps {
+  initialData?: Partial<FormData>;
+}
+
+const AppointmentForm: React.FC<AppointmentFormProps> = ({
+  initialData = {},
+}) => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -58,6 +64,13 @@ const AppointmentForm = () => {
       selectedDate: null,
     },
   });
+
+  // Update form when initialData changes
+  useEffect(() => {
+    if (initialData.symptoms) {
+      methods.setValue("symptoms", initialData.symptoms);
+    }
+  }, [initialData, methods]);
 
   const {
     handleSubmit,

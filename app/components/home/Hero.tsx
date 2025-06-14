@@ -606,13 +606,13 @@ const Hero = () => {
           <div className="relative mb-6 overflow-hidden">
             <div className="absolute -top-6 -left-6 h-12 w-12 rounded-full bg-green-100/50 blur-lg"></div>
             <h1 className="text-4xl md:text-5xl font-bold text-green-700 transition-all duration-300 relative z-0">
-              গণস্বাস্থ্য হোমিওপ্যাথিক মেডিকেল সেন্টার
+              গণস্বাস্থ্য হোমিও
             </h1>
           </div>
           <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
-            আমরা আপনাকে প্রাকৃতিক পদ্ধতিতে চিকিৎসা সেবা প্রদান করি। আমাদের
-            হোমিওপ্যাথিক চিকিৎসা পদ্ধতি শরীরের অন্তর্নিহিত রোগ প্রতিরোধ ক্ষমতা
-            বাড়িয়ে দীর্ঘমেয়াদী সুস্থতা প্রদান করে।
+            “ক্যান্সারের বিরুদ্ধে আমাদের দীর্ঘমেয়াদি লড়াইয়ে, হোমিওপ্যাথিই
+            নিরাপদ ও মানবিক সমাধান — কারণ আমরা শুধু রোগ সারাই না, আমরা ফিরিয়ে
+            আনি হারিয়ে যাওয়া আশাও।”
           </p>
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             <LinkButton href="/appointment" variant="primary" size="md">

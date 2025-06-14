@@ -67,16 +67,16 @@ const locations = [
   {
     id: 1,
     name: "ঢাকা",
-    fullAddress: "১২/এ, পুরান পল্টন লেন, ঢাকা-১০০০",
-    landmark: "পল্টন মার্কেট এর পাশে",
+    fullAddress: "৫ম তলা, বাইতুল ভিউ টাওয়ার, পুরানা পল্টন, ঢাকা-১০০০",
+
     contactNumber: "০১৭১২-৩৪৫৬৭৮",
     disabledDays: [2, 3, 4, 5], // Tuesday, Wednesday, Thursday, Friday (0 is Sunday)
   },
   {
     id: 2,
     name: "হবিগঞ্জ",
-    fullAddress: "৪৫/বি, স্টেশন রোড, শায়েস্তাগঞ্জ, হবিগঞ্জ",
-    landmark: "শায়েস্তাগঞ্জ রেলওয়ে স্টেশন এর সামনে",
+    fullAddress: " শ্মশানঘাট, হবিগঞ্জ",
+
     contactNumber: "০১৮১২-৩৪৫৬৭৮",
     disabledDays: [0, 1, 6, 5], // Saturday, Sunday, Monday, Friday (0 is Sunday)
   },
@@ -167,10 +167,6 @@ const LocationSelection = () => {
               <p className="text-gray-600">
                 <span className="font-medium">ঠিকানা:</span>{" "}
                 {location.fullAddress}
-              </p>
-              <p className="text-gray-600">
-                <span className="font-medium">ল্যান্ডমার্ক:</span>{" "}
-                {location.landmark}
               </p>
               <p className="text-gray-600">
                 <span className="font-medium">যোগাযোগ:</span>{" "}

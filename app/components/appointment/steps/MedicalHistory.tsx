@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
@@ -14,10 +14,12 @@ const MedicalHistory = () => {
     formState: { errors },
     setValue,
     watch,
+    getValues,
   } = useFormContext<FormData>();
 
   const [isUploading, setIsUploading] = useState(false);
   const documentUrls = watch("documentUrls") || [];
+  const symptoms = watch("symptoms");
 
   const textareaClasses =
     "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-500";

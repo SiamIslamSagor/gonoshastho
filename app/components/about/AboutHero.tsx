@@ -99,20 +99,24 @@ export default function AboutHero() {
       {/* Content container */}
       <div className="container mx-auto relative z-10 max-w-6xl">
         <div className="flex flex-col items-center text-center">
-          <h1
+          {/* <h1
             ref={headingRef}
             className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900"
           >
+            "আমরা শুধু চিকিৎসা দেই না, দেই আশার নতুন ঠিকানা"
+          </h1> */}
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
             আমাদের <span className="text-green-600">পরিচয়</span>
-          </h1>
+          </h2>
           <p
             ref={textRef}
             className="max-w-3xl text-lg md:text-xl text-gray-700 mb-10"
           >
-            ১৯৯৮ সাল থেকে, গণস্বাস্থ্য হোমিও হোমিওপ্যাথিক চিকিৎসা সেবা প্রদানের
-            মাধ্যমে হাজার হাজার রোগীকে সুস্থতার পথে নিয়ে এসেছে। আমরা বিশ্বাস
-            করি, প্রাকৃতিক চিকিৎসা পদ্ধতি মানুষের জীবনে সুস্থতা ও স্বাস্থ্য
-            ফিরিয়ে আনতে পারে।
+            "আমরা শুধু চিকিৎসা দেই না, দেই আশার নতুন ঠিকানা।" ১৯৯৮ সাল থেকে,
+            গণস্বাস্থ্য হোমিও ক্যান্সারসহ বহু জটিল রোগে রোগীদের প্রাকৃতিক ও
+            পার্শ্বপ্রতিক্রিয়াহীন চিকিৎসা সেবা দিয়ে আসছে। শুধু বাংলাদেশেই নয়,
+            আমরা গ্লোবাল ক্যান্সার পেশেন্টদের জন্য একটি বিকল্প নিরাপদ সমাধান
+            তৈরির স্বপ্ন দেখি।
           </p>
 
           {/* Stats */}
@@ -122,15 +126,17 @@ export default function AboutHero() {
           >
             <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1">
               <div className="text-4xl font-bold text-green-600 mb-2">২৫+</div>
-              <div className="text-gray-600">বছরের অভিজ্ঞতা</div>
+              <div className="text-gray-600">বছরের আস্থা ও নেতৃত্ব</div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1">
               <div className="text-4xl font-bold text-green-600 mb-2">১০+</div>
-              <div className="text-gray-600">অভিজ্ঞ চিকিৎসক</div>
+              <div className="text-gray-600">চিকিৎসায় দক্ষতা ও দায়িত্ব</div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1">
-              <div className="text-4xl font-bold text-green-600 mb-2">৫০K+</div>
-              <div className="text-gray-600">সন্তুষ্ট রোগী</div>
+              <div className="text-4xl font-bold text-green-600 mb-2">
+                ১০,০০০+
+              </div>
+              <div className="text-gray-600">রোগীর হাসি, আমাদের অর্জন</div>
             </div>
           </div>
         </div>

@@ -51,7 +51,7 @@ const AboutSection = () => {
               <div className="relative h-[350px] md:h-[500px] w-full rounded-xl overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-tr from-green-600 to-green-400 flex items-center justify-center">
                   <div className="p-8 text-white text-center">
-                    <svg
+                    {/* <svg
                       className="h-20 w-20 mx-auto mb-4 text-white/80"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -63,9 +63,23 @@ const AboutSection = () => {
                         strokeWidth={1.5}
                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
                       />
-                    </svg>
-                    <h3 className="text-2xl font-bold">গণস্বাস্থ্য হোমিও</h3>
-                    <p className="text-white/90 mt-2">প্রতিষ্ঠাকাল: ১৯৯৮</p>
+                    </svg> */}
+                    <div className="flex items-center justify-center mb-5">
+                      <Image
+                        src="/logo.png"
+                        alt="গণস্বাস্থ্য হোমিও"
+                        width={160}
+                        height={40}
+                        priority
+                      />
+                    </div>
+                    <h3 className="text-2xl font-bold">
+                      “সাফল্যের গল্প – গণস্বাস্থ্য হোমিও”
+                    </h3>
+                    <p className="text-white/90 mt-2">
+                      “সুস্থতা ফিরেছে হাজারো জীবনে – দেখে নিন আমাদের
+                      সফলতার গল্পগুলো।”
+                    </p>
                   </div>
                 </div>
               </div>
@@ -87,11 +101,9 @@ const AboutSection = () => {
             <div className="absolute -top-8 -left-8 bg-white rounded-full shadow-xl p-5 animate-float">
               <div className="text-center h-20 w-20 flex flex-col items-center justify-center">
                 <span className="block text-3xl font-bold text-green-600">
-                  ৫০K+
+                  ১০K+
                 </span>
-                <span className="block text-sm text-gray-500">
-                  সন্তুষ্ট রোগী
-                </span>
+                <span className="block text-sm text-gray-500">সফল কেস</span>
               </div>
             </div>
           </div>
@@ -110,16 +122,15 @@ const AboutSection = () => {
               </span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              বাংলাদেশের অন্যতম সেরা{" "}
-              <span className="text-green-600">
-                হোমিওপ্যাথিক চিকিৎসা কেন্দ্র
-              </span>
+              যেখানে আধুনিক চিকিৎসা থেমে যায়, সেখানে গণস্বাস্থ্য হোমিও
+              বিশ্বজুড়ে রোগীদের জন্য নতুন আশা হয়ে দাঁড়ায়
             </h2>
             <p className="text-lg text-gray-700 mb-8">
-              গণস্বাস্থ্য হোমিও ১৯৯৮ সাল থেকে বাংলাদেশে হোমিওপ্যাথিক চিকিৎসা
-              সেবা প্রদান করে আসছে। আমরা বিশ্বাস করি, হোমিওপ্যাথি হল একটি
-              প্রাকৃতিক ও নিরাপদ চিকিৎসা পদ্ধতি যা শরীরের রোগ প্রতিরোধ ক্ষমতা
-              বাড়িয়ে সম্পূর্ণরূপে রোগ নিরাময় করে।
+              ক্যান্সার বিশ্বব্যাপী এক অভিশাপ — যার যন্ত্রণা, খরচ ও মানসিক চাপ
+              অনেকের কাছে অসহনীয়। আমরা বিশ্বাস করি, চিকিৎসা একটি মৌলিক অধিকার —
+              দেশ, জাতি বা সামর্থ্যের ঊর্ধ্বে। গণস্বাস্থ্য হোমিও সেই বিশ্বাস
+              নিয়ে আজ শুধু দেশের গণ্ডিতে নয়, বৈশ্বিকভাবে ক্যান্সার রোগীদের
+              জন্য এক আশার নাম হয়ে উঠতে চায়।
             </p>
 
             <div className="space-y-4 mb-8">
@@ -141,7 +152,7 @@ const AboutSection = () => {
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">
-                    অত্যাধুনিক চিকিৎসা সুবিধা ও অভিজ্ঞ চিকিৎসকের দল
+                    ২৫+ বছরের অভিজ্ঞতা ও হাজারো সফল কেস
                   </p>
                 </div>
               </div>
@@ -163,7 +174,8 @@ const AboutSection = () => {
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">
-                    সর্বাধুনিক ল্যাবরেটরি এবং ডায়াগনস্টিক সুবিধা
+                    ক্যান্সার, কিডনি, থ্যালাসেমিয়া ও হরমোন সমস্যায় কার্যকর
+                    চিকিৎসা
                   </p>
                 </div>
               </div>
@@ -185,7 +197,7 @@ const AboutSection = () => {
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">
-                    বিশুদ্ধ এবং মানসম্পন্ন হোমিওপ্যাথিক ঔষধ
+                    পার্শ্বপ্রতিক্রিয়াহীন ও সাশ্রয়ী প্রাকৃতিক সেবা
                   </p>
                 </div>
               </div>
@@ -207,7 +219,7 @@ const AboutSection = () => {
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">
-                    ২৪/৭ অনলাইন কনসালটেশন এবং জরুরি সেবা
+                    অনলাইন কনসালটেশন ও দ্রুত বুকিং সাপোর্ট
                   </p>
                 </div>
               </div>
@@ -218,13 +230,13 @@ const AboutSection = () => {
                 href="/about"
                 className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition-colors inline-block text-center"
               >
-                Learn More
+                আরও জানুন
               </Link>
               <Link
                 href="/contact"
                 className="border-2 border-green-600 text-green-700 hover:bg-green-50 font-medium py-3 px-6 rounded-md transition-colors inline-block text-center"
               >
-                Contact Us
+                যোগাযোগ করুন
               </Link>
             </div>
           </div>
