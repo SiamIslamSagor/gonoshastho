@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { LinkButton } from "@/app/components/ui/Button";
+import Image from "next/image";
+import doctor from "@/public/doctors/doctor.jpg";
 
 export default function AboutTeam() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -85,9 +87,9 @@ export default function AboutTeam() {
         >
           {/* Doctor Profile */}
           <div className="team-card bg-white rounded-xl shadow-md overflow-hidden group hover:shadow-xl transition-shadow duration-300">
-            <div className="h-64 bg-green-100 relative overflow-hidden">
+            <div className="h-80 bg-white relative overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="p-4 text-center">
+                {/* <div className="p-4 text-center">
                   <svg
                     className="h-20 w-20 mx-auto mb-4 text-green-600"
                     fill="none"
@@ -101,6 +103,14 @@ export default function AboutTeam() {
                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
                   </svg>
+                </div> */}
+                <div className="flex items-center justify-center">
+                  <Image
+                    src={doctor}
+                    alt="গণস্বাস্থ্য হোমিও"
+                    priority
+                    className="max-w-80"
+                  />
                 </div>
               </div>
             </div>
